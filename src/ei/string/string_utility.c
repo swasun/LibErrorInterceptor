@@ -17,11 +17,11 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-#include <errorinterceptor/string/string_utility.h>
-#include <errorinterceptor/string/string_builder.h>
-#include <errorinterceptor/check_parameter.h>
-#include <errorinterceptor/stacktrace/stacktrace.h>
-#include <errorinterceptor/alloc.h>
+#include <ei/string/string_utility.h>
+#include <ei/string/string_builder.h>
+#include <ei/check_parameter.h>
+#include <ei/stacktrace/stacktrace.h>
+#include <ei/alloc.h>
 
 #include <string.h>
 #include <stdarg.h>

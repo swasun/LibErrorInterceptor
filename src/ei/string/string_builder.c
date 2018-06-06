@@ -17,9 +17,9 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-#include <errorinterceptor/string/string_builder.h>
-#include <errorinterceptor/alloc.h>
-#include <errorinterceptor/check_parameter.h>
+#include <ei/string/string_builder.h>
+#include <ei/alloc.h>
+#include <ei/check_parameter.h>
 
 #include <string.h>
 #include <stdlib.h>

@@ -17,23 +17,38 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-#ifndef ERRORINTERCEPTOR_ERRORINTERCEPTOR_H
-#define ERRORINTERCEPTOR_ERRORINTERCEPTOR_H
+/**
+ *  @file      check_parameter.h
+ *  @brief     Provides macro to record ERRORINTERCEPTOR_INVALID_PARAMETER error code
+ *             and return if specified parameter is null.
+ *  @author    Charly Lamothe
+ *  @copyright GNU Public License.
+ */
 
-/* @todo remove it from here ? */
-#include <errorinterceptor/alloc.h>
-#include <errorinterceptor/bool.h>
+#ifndef ERRORINTERCEPTOR_CHECK_PARAMETER_H
+#define ERRORINTERCEPTOR_CHECK_PARAMETER_H
 
-#include <errorinterceptor/check_parameter.h>
-#include <errorinterceptor/init.h>
+#include <ei/stacktrace/stacktrace.h>
+#include <ei/error/error.h>
 
-#include <errorinterceptor/error/error.h>
-#include <errorinterceptor/error/internal_error.h>
+#define ei_unused(x) (void)(x);
 
-#include <errorinterceptor/logger/logger_manager.h>
-#include <errorinterceptor/logger/logger_struct.h>
-#include <errorinterceptor/logger/logger.h>
+#define ei_check_parameter(p) \
+    if (!(p)) { \
+        ei_stacktrace_push_code(ERRORINTERCEPTOR_INVALID_PARAMETER) \
+        return; \
+    } \
 
-#include <errorinterceptor/stacktrace/stacktrace.h>
+#define ei_check_parameter_or_return(p) \
+    if (!(p)) { \
+        ei_stacktrace_push_code(ERRORINTERCEPTOR_INVALID_PARAMETER) \
+        return 0; \
+    } \
 
-#endif
+#define ei_check_parameter_or_goto(p, label) \
+    if (!(p)) { \
+        ei_stacktrace_push_code(ERRORINTERCEPTOR_INVALID_PARAMETER) \
+        goto label; \
+    } \
+
+#endif /* CHECK_PARAMETER_H */

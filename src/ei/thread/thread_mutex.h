@@ -18,37 +18,41 @@
  *******************************************************************************/
 
 /**
- *  @file      check_parameter.h
- *  @brief     Provides macro to record ERRORINTERCEPTOR_INVALID_PARAMETER error code
- *             and return if specified parameter is null.
+ *  @file      thread_mutex.h
+ *  @brief     Portable structure of thread mutex.
  *  @author    Charly Lamothe
  *  @copyright GNU Public License.
  */
 
-#ifndef ERRORINTERCEPTOR_CHECK_PARAMETER_H
-#define ERRORINTERCEPTOR_CHECK_PARAMETER_H
+#ifndef ERRORINTERCEPTOR_THREAD_MUTEX_H
+#define ERRORINTERCEPTOR_THREAD_MUTEX_H
 
-#include <errorinterceptor/stacktrace/stacktrace.h>
-#include <errorinterceptor/error/error.h>
+#include <ei/bool.h>
 
-#define ei_unused(x) (void)(x);
+#if defined(_WIN32) || defined(_WIN64)
+    #include <windows.h>
+#else
+    #include <pthread.h>
+#endif
 
-#define ei_check_parameter(p) \
-    if (!(p)) { \
-        ei_stacktrace_push_code(ERRORINTERCEPTOR_INVALID_PARAMETER) \
-        return; \
-    } \
+typedef struct {
+#if defined(_WIN32) || defined(_WIN64)
+        //HANDLE lock;
+        CRITICAL_SECTION lock;
+#else
+        pthread_mutex_t lock;
+#endif
+} ei_thread_mutex;
 
-#define ei_check_parameter_or_return(p) \
-    if (!(p)) { \
-        ei_stacktrace_push_code(ERRORINTERCEPTOR_INVALID_PARAMETER) \
-        return 0; \
-    } \
+ei_thread_mutex *ei_thread_mutex_create();
 
-#define ei_check_parameter_or_goto(p, label) \
-    if (!(p)) { \
-        ei_stacktrace_push_code(ERRORINTERCEPTOR_INVALID_PARAMETER) \
-        goto label; \
-    } \
+/**
+ * @todo In UNIX impl, detect EBUSY and try to destroy the mutex with a timeout.
+ */
+bool ei_thread_mutex_destroy(ei_thread_mutex *m);
 
-#endif /* CHECK_PARAMETER_H */
+bool ei_thread_mutex_lock(ei_thread_mutex *m);
+
+bool ei_thread_mutex_unlock(ei_thread_mutex *m);
+
+#endif

@@ -17,11 +17,11 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-#include <errorinterceptor/thread/thread_mutex.h>
-#include <errorinterceptor/check_parameter.h>
-#include <errorinterceptor/stacktrace/stacktrace.h>
-#include <errorinterceptor/logger/logger.h>
-#include <errorinterceptor/alloc.h>
+#include <ei/thread/thread_mutex.h>
+#include <ei/check_parameter.h>
+#include <ei/stacktrace/stacktrace.h>
+#include <ei/logger/logger.h>
+#include <ei/alloc.h>
 
 #if defined(_WIN32) || defined(_WIN64)
     #include <unknownecho/errorHandling/error.h>

@@ -18,25 +18,21 @@
  *******************************************************************************/
 
 /**
- *  @file      logger_manager.h
- *  @brief     Logger manager return the current (thread-local) logger.
+ *  @file      stacktrace_struct.h
+ *  @brief     Stacktrace structure that contains a list of errors.
  *  @author    Charly Lamothe
  *  @copyright GNU Public License.
- *  @see       logger.h
- *  @see       logger_struct.h
  */
 
-#ifndef ERRORINTERCEPTOR_LOGGER_MANAGER_H
-#define ERRORINTERCEPTOR_LOGGER_MANAGER_H
+#ifndef ERRORINTERCEPTOR_STACKTRACE_STRUCT_H
+#define ERRORINTERCEPTOR_STACKTRACE_STRUCT_H
 
-#include <errorinterceptor/bool.h>
-#include <errorinterceptor/logger/logger_struct.h>
-#include <errorinterceptor/logger/logger.h>
+#include <ei/error/error.h>
 
-bool ei_logger_manager_init();
-
-void ei_logger_manager_uninit();
-
-ei_logger *ei_logger_manager_get_logger();
+typedef struct {
+    ei_error **errors;
+    unsigned short elements;
+    long ei_thread_id;
+} ei_stacktrace;
 
 #endif

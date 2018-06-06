@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <errorinterceptor/stacktrace/stacktrace.h>
+#include <ei/stacktrace/stacktrace.h>
 
 /**
  *  @brief Alloc a variable in a safe way.

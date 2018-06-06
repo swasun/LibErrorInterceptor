@@ -27,11 +27,11 @@
 #ifndef ERRORINTERCEPTOR_STRACKTRACE_H
 #define ERRORINTERCEPTOR_STRACKTRACE_H
 
-#include <errorinterceptor/error/error.h>
-#include <errorinterceptor/error/internal_error.h>
-#include <errorinterceptor/stacktrace/stacktrace_struct.h>
-#include <errorinterceptor/bool.h>
-#include <errorinterceptor/thread/thread_storage.h>
+#include <ei/error/error.h>
+#include <ei/error/internal_error.h>
+#include <ei/stacktrace/stacktrace_struct.h>
+#include <ei/bool.h>
+#include <ei/thread/thread_storage.h>
 
 #include <stdlib.h>
 #include <stdio.h>

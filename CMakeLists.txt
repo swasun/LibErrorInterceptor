@@ -4,7 +4,7 @@
 
 # --- PROJECT ---
 
-PROJECT(errorinterceptor C)
+PROJECT(libei C)
 cmake_minimum_required(VERSION 3.8)
 
 
@@ -95,13 +95,13 @@ file(GLOB_RECURSE PROGRAM_TARGET_SRC_FILES "${SRC_PATH}/*.*")
 # Build shared library
 add_library(${PROJECT_NAME_SHARED} SHARED ${PROGRAM_TARGET_SRC_FILES})
 target_include_directories(${PROJECT_NAME_SHARED} PUBLIC "${SRC_PATH}")
-set_target_properties(${PROJECT_NAME_SHARED} PROPERTIES OUTPUT_NAME errorinterceptor)
+set_target_properties(${PROJECT_NAME_SHARED} PROPERTIES OUTPUT_NAME libei)
 target_link_libraries(${PROJECT_NAME_SHARED} ${CMAKE_THREAD_LIBS_INIT})
 
 # Build static library
 add_library(${PROJECT_NAME_STATIC} STATIC ${PROGRAM_TARGET_SRC_FILES})
 target_include_directories(${PROJECT_NAME_STATIC} PUBLIC "${SRC_PATH}")
-set_target_properties(${PROJECT_NAME_STATIC} PROPERTIES OUTPUT_NAME errorinterceptor)
+set_target_properties(${PROJECT_NAME_STATIC} PROPERTIES OUTPUT_NAME libei)
 target_link_libraries(${PROJECT_NAME_STATIC} ${CMAKE_THREAD_LIBS_INIT})
 
 

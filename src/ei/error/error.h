@@ -17,27 +17,59 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-#include <errorinterceptor/init.h>
-#include <errorinterceptor/thread/thread_storage.h>
-#include <errorinterceptor/bool.h>
-#include <errorinterceptor/logger/logger_manager.h>
+/**
+ *  @file      error.h
+ *  @brief     Error module to create generic error.
+ *  @author    Charly Lamothe
+ *  @copyright GNU Public License.
+ */
 
-static bool ei_thread_storage_initialized = false;
+#ifndef ERRORINTERCEPTOR_ERROR_H
+#define ERRORINTERCEPTOR_ERROR_H
 
-int ei_init() {
-	if (!ei_thread_storage_initialized) {
-		ei_thread_storage_initialized = ei_thread_storage_init();
-	}
+#include <ei/bool.h>
 
-	ei_logger_manager_init();
+#if defined(_WIN32) || defined(_WIN64)
+    #include <windows.h>
+#endif
 
-	return ei_thread_storage_initialized;
-}
+#include <stdarg.h>
 
-void ei_uninit() {
-	ei_logger_manager_uninit();
+/**
+ * Error structure that describe an error context.
+ */
+typedef struct {
+	char *description;
+	char *func_name;
+	char *file_name;
+	int line_number;
+	bool is_main_error;
+} ei_error;
 
-	if (ei_thread_storage_initialized) {
-		ei_thread_storage_uninit();
-	}
-}
+#if defined(_WIN32) || defined(_WIN64)
+    #define ei_format_error(error_buffer, code) \
+        error_buffer = NULL; \
+        FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, \
+        NULL, \
+        code, \
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), \
+        (LPTSTR)&error_buffer, \
+        0, \
+        NULL); \
+
+    #define ei_get_last_werror(error_buffer) ei_format_error(error_buffer, GetLastError())
+
+    #define ei_get_last_wsa_error(error_buffer) ei_format_error(error_buffer, WSAGetLastError())
+#endif
+
+ei_error *ei_error_create(char *func_name, char *file_name, int line_number, char *description);
+
+ei_error *ei_error_create_variadic(char *func_name, char *file_name, int line_number, const char *format, ...);
+
+void ei_error_clean_up(ei_error *e);
+
+void ei_error_destroy(ei_error *e);
+
+bool ei_error_equals(ei_error *e1, ei_error *e2);
+
+#endif

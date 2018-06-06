@@ -18,41 +18,36 @@
  *******************************************************************************/
 
 /**
- *  @file      thread_mutex.h
- *  @brief     Portable structure of thread mutex.
+ *  @file      thread_storage.h
+ *  @brief     Singleton module to retreive an object per thread.
  *  @author    Charly Lamothe
  *  @copyright GNU Public License.
  */
 
-#ifndef ERRORINTERCEPTOR_THREAD_MUTEX_H
-#define ERRORINTERCEPTOR_THREAD_MUTEX_H
+#ifndef ERRORINTERCEPTOR_THREAD_STORAGE_H
+#define ERRORINTERCEPTOR_THREAD_STORAGE_H
 
-#include <errorinterceptor/bool.h>
+#include <ei/bool.h>
+#include <ei/stacktrace/stacktrace_struct.h>
 
-#if defined(_WIN32) || defined(_WIN64)
-    #include <windows.h>
-#else
-    #include <pthread.h>
-#endif
+bool ei_thread_storage_init();
 
-typedef struct {
-#if defined(_WIN32) || defined(_WIN64)
-        //HANDLE lock;
-        CRITICAL_SECTION lock;
-#else
-        pthread_mutex_t lock;
-#endif
-} ei_thread_mutex;
+void ei_thread_storage_uninit();
 
-ei_thread_mutex *ei_thread_mutex_create();
+bool ei_thread_storage_append_to_be_deleted_data(void *data);
 
-/**
- * @todo In UNIX impl, detect EBUSY and try to destroy the mutex with a timeout.
- */
-bool ei_thread_mutex_destroy(ei_thread_mutex *m);
+ei_stacktrace *ei_thread_storage_get_stacktrace();
 
-bool ei_thread_mutex_lock(ei_thread_mutex *m);
+ei_stacktrace **ei_thread_storage_get_all_stacktrace(int *number);
 
-bool ei_thread_mutex_unlock(ei_thread_mutex *m);
+ei_stacktrace *ei_thread_storage_get_stacktrace_from_thread_id(long ei_thread_id);
+
+bool ei_thread_storage_set_char_data(char *data);
+
+char *ei_thread_storage_get_char_data();
+
+bool ei_thread_storage_set_int_data(int data);
+
+int ei_thread_storage_get_int_data();
 
 #endif

@@ -18,36 +18,32 @@
  *******************************************************************************/
 
 /**
- *  @file      thread_storage.h
- *  @brief     Singleton module to retreive an object per thread.
+ *  @file      internal_error.h
+ *  @brief     Internal error provides a set of common errors.
  *  @author    Charly Lamothe
  *  @copyright GNU Public License.
  */
 
-#ifndef ERRORINTERCEPTOR_THREAD_STORAGE_H
-#define ERRORINTERCEPTOR_THREAD_STORAGE_H
+#ifndef ERRORINTERCEPTOR_INTERNAL_ERROR_H
+#define ERRORINTERCEPTOR_INTERNAL_ERROR_H
 
-#include <errorinterceptor/bool.h>
-#include <errorinterceptor/stacktrace/stacktrace_struct.h>
+#include <ei/error/error.h>
 
-bool ei_thread_storage_init();
+#include <stdio.h>
 
-void ei_thread_storage_uninit();
+typedef enum {
+	ERRORINTERCEPTOR_SUCCESS,
+	ERRORINTERCEPTOR_NO_SUCH_MEMORY,
+	ERRORINTERCEPTOR_FILE_NOT_FOUND,
+    ERRORINTERCEPTOR_INVALID_PARAMETER,
+    ERRORINTERCEPTOR_NO_INTERNET_CONNECTION,
+	ERRORINTERCEPTOR_UNKNOWN_ERROR
+} ei_internal_error_type;
 
-bool ei_thread_storage_append_to_be_deleted_data(void *data);
+char *ei_internal_error_get_description(ei_internal_error_type type);
 
-ei_stacktrace *ei_thread_storage_get_stacktrace();
+char *ei_internal_error_to_string(ei_error *e);
 
-ei_stacktrace **ei_thread_storage_get_all_stacktrace(int *number);
-
-ei_stacktrace *ei_thread_storage_get_stacktrace_from_thread_id(long ei_thread_id);
-
-bool ei_thread_storage_set_char_data(char *data);
-
-char *ei_thread_storage_get_char_data();
-
-bool ei_thread_storage_set_int_data(int data);
-
-int ei_thread_storage_get_int_data();
+void ei_internal_error_print(ei_error *e, FILE *out);
 
 #endif

@@ -27,7 +27,7 @@
 #ifndef ERRORINTERCEPTOR_STRING_UTILITY_H
 #define ERRORINTERCEPTOR_STRING_UTILITY_H
 
-#include <errorinterceptor/bool.h>
+#include <ei/bool.h>
 
 #include <stdarg.h>
 #include <stddef.h>

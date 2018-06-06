@@ -17,8 +17,8 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-#include <errorinterceptor/thread/thread_storage.h>
-#include <errorinterceptor/stacktrace/stacktrace.h>
+#include <ei/thread/thread_storage.h>
+#include <ei/stacktrace/stacktrace.h>
 
 #include <string.h>
 #include <stdlib.h>

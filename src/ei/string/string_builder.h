@@ -18,40 +18,40 @@
  *******************************************************************************/
 
 /**
- *  @file      logger_struct.h
- *  @brief     Logger structure that contains the context of the log trace.
+ *  @file      string_builder.h
+ *  @brief     A string builder is a stream of string use to concatenate easily
+ *             several types into a single string.
  *  @author    Charly Lamothe
  *  @copyright GNU Public License.
- *  @see       logger.h
  */
 
-#ifndef ERRORINTERCEPTOR_LOGGER_STRUCT_H
-#define ERRORINTERCEPTOR_LOGGER_STRUCT_H
+#ifndef ERRORINTERCEPTOR_STRING_BUILDER_H
+#define ERRORINTERCEPTOR_STRING_BUILDER_H
 
-#include <errorinterceptor/bool.h>
-#include <errorinterceptor/thread/thread_mutex.h>
+#include <ei/bool.h>
 
-#include <stdio.h>
-
-typedef enum {
-    ERRORINTERCEPTOR_LOG_TRACE = 0,
-    ERRORINTERCEPTOR_LOG_DEBUG,
-    ERRORINTERCEPTOR_LOG_INFO,
-    ERRORINTERCEPTOR_LOG_WARNING,
-    ERRORINTERCEPTOR_LOG_ERROR,
-    ERRORINTERCEPTOR_LOG_FATAL
-} ei_logger_type;
+#include <stddef.h>
 
 typedef struct {
-    int print_level, file_level;
-    bool colored;
-    bool details;
-    bool padding;
-    bool message_color_as_level_color;
-    FILE *fp;
-    ei_thread_mutex *mutex;
-    char **level_colors;
-    char *message_color;
-} ei_logger;
+    char *data;
+    size_t max_size;
+    size_t position;
+} ei_string_builder;
+
+ei_string_builder *ei_string_builder_create();
+
+ei_string_builder *ei_string_builder_create_size(size_t max_size);
+
+bool ei_string_builder_append(ei_string_builder *s, char *data, size_t data_len);
+
+bool ei_string_builder_append_variadic(ei_string_builder *s, const char *format, ...);
+
+void ei_string_builder_clean_up(ei_string_builder *s);
+
+void ei_string_builder_destroy(ei_string_builder *s);
+
+char *ei_string_builder_get_data(ei_string_builder *s);
+
+size_t ei_string_builder_get_position(ei_string_builder *s);
 
 #endif

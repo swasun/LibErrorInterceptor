@@ -17,7 +17,7 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-#include <errorinterceptor/stacktrace/stacktrace.h>
+#include <ei/stacktrace/stacktrace.h>
 
 #include <string.h>
 

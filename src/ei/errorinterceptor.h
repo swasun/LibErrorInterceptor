@@ -17,22 +17,23 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-/**
- *  @file      stacktrace_struct.h
- *  @brief     Stacktrace structure that contains a list of errors.
- *  @author    Charly Lamothe
- *  @copyright GNU Public License.
- */
+#ifndef ERRORINTERCEPTOR_ERRORINTERCEPTOR_H
+#define ERRORINTERCEPTOR_ERRORINTERCEPTOR_H
 
-#ifndef ERRORINTERCEPTOR_STACKTRACE_STRUCT_H
-#define ERRORINTERCEPTOR_STACKTRACE_STRUCT_H
+/* @todo remove it from here ? */
+#include <ei/alloc.h>
+#include <ei/bool.h>
 
-#include <errorinterceptor/error/error.h>
+#include <ei/check_parameter.h>
+#include <ei/init.h>
 
-typedef struct {
-    ei_error **errors;
-    unsigned short elements;
-    long ei_thread_id;
-} ei_stacktrace;
+#include <ei/error/error.h>
+#include <ei/error/internal_error.h>
+
+#include <ei/logger/logger_manager.h>
+#include <ei/logger/logger_struct.h>
+#include <ei/logger/logger.h>
+
+#include <ei/stacktrace/stacktrace.h>
 
 #endif

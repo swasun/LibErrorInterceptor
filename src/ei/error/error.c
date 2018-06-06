@@ -17,7 +17,7 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-#include <errorinterceptor/error/error.h>
+#include <ei/error/error.h>
 
 #include <string.h>
 #include <stdlib.h>

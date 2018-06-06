@@ -17,20 +17,41 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-#include <errorinterceptor/logger/logger_manager.h>
+/**
+ *  @file      logger_struct.h
+ *  @brief     Logger structure that contains the context of the log trace.
+ *  @author    Charly Lamothe
+ *  @copyright GNU Public License.
+ *  @see       logger.h
+ */
 
-static ei_logger *log = NULL;
+#ifndef ERRORINTERCEPTOR_LOGGER_STRUCT_H
+#define ERRORINTERCEPTOR_LOGGER_STRUCT_H
 
-bool ei_logger_manager_init() {
-    log = ei_logger_create();
-    ei_logger_set_details(log, false);
-    return true;
-}
+#include <ei/bool.h>
+#include <ei/thread/thread_mutex.h>
 
-void ei_logger_manager_uninit() {
-    ei_logger_destroy(log);
-}
+#include <stdio.h>
 
-ei_logger *ei_logger_manager_get_logger() {
-    return log;
-}
+typedef enum {
+    ERRORINTERCEPTOR_LOG_TRACE = 0,
+    ERRORINTERCEPTOR_LOG_DEBUG,
+    ERRORINTERCEPTOR_LOG_INFO,
+    ERRORINTERCEPTOR_LOG_WARNING,
+    ERRORINTERCEPTOR_LOG_ERROR,
+    ERRORINTERCEPTOR_LOG_FATAL
+} ei_logger_type;
+
+typedef struct {
+    int print_level, file_level;
+    bool colored;
+    bool details;
+    bool padding;
+    bool message_color_as_level_color;
+    FILE *fp;
+    ei_thread_mutex *mutex;
+    char **level_colors;
+    char *message_color;
+} ei_logger;
+
+#endif

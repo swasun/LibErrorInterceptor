@@ -28,11 +28,11 @@
 #ifndef ERRORINTERCEPTOR_LOGGER_H
 #define ERRORINTERCEPTOR_LOGGER_H
 
-#include <errorinterceptor/bool.h>
-#include <errorinterceptor/logger/logger_struct.h>
-#include <errorinterceptor/logger/logger_manager.h>
-#include <errorinterceptor/stacktrace/stacktrace_struct.h>
-#include <errorinterceptor/thread/thread_storage.h>
+#include <ei/bool.h>
+#include <ei/logger/logger_struct.h>
+#include <ei/logger/logger_manager.h>
+#include <ei/stacktrace/stacktrace_struct.h>
+#include <ei/thread/thread_storage.h>
 
 #include <stdio.h>
 #include <stdarg.h>

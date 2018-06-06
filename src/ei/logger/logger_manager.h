@@ -18,32 +18,25 @@
  *******************************************************************************/
 
 /**
- *  @file      internal_error.h
- *  @brief     Internal error provides a set of common errors.
+ *  @file      logger_manager.h
+ *  @brief     Logger manager return the current (thread-local) logger.
  *  @author    Charly Lamothe
  *  @copyright GNU Public License.
+ *  @see       logger.h
+ *  @see       logger_struct.h
  */
 
-#ifndef ERRORINTERCEPTOR_INTERNAL_ERROR_H
-#define ERRORINTERCEPTOR_INTERNAL_ERROR_H
+#ifndef ERRORINTERCEPTOR_LOGGER_MANAGER_H
+#define ERRORINTERCEPTOR_LOGGER_MANAGER_H
 
-#include <errorinterceptor/error/error.h>
+#include <ei/bool.h>
+#include <ei/logger/logger_struct.h>
+#include <ei/logger/logger.h>
 
-#include <stdio.h>
+bool ei_logger_manager_init();
 
-typedef enum {
-	ERRORINTERCEPTOR_SUCCESS,
-	ERRORINTERCEPTOR_NO_SUCH_MEMORY,
-	ERRORINTERCEPTOR_FILE_NOT_FOUND,
-    ERRORINTERCEPTOR_INVALID_PARAMETER,
-    ERRORINTERCEPTOR_NO_INTERNET_CONNECTION,
-	ERRORINTERCEPTOR_UNKNOWN_ERROR
-} ei_internal_error_type;
+void ei_logger_manager_uninit();
 
-char *ei_internal_error_get_description(ei_internal_error_type type);
-
-char *ei_internal_error_to_string(ei_error *e);
-
-void ei_internal_error_print(ei_error *e, FILE *out);
+ei_logger *ei_logger_manager_get_logger();
 
 #endif

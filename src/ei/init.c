@@ -17,41 +17,27 @@
  *   along with ErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  *******************************************************************************/
 
-/**
- *  @file      string_builder.h
- *  @brief     A string builder is a stream of string use to concatenate easily
- *             several types into a single string.
- *  @author    Charly Lamothe
- *  @copyright GNU Public License.
- */
+#include <ei/init.h>
+#include <ei/thread/thread_storage.h>
+#include <ei/bool.h>
+#include <ei/logger/logger_manager.h>
 
-#ifndef ERRORINTERCEPTOR_STRING_BUILDER_H
-#define ERRORINTERCEPTOR_STRING_BUILDER_H
+static bool ei_thread_storage_initialized = false;
 
-#include <errorinterceptor/bool.h>
+int ei_init() {
+	if (!ei_thread_storage_initialized) {
+		ei_thread_storage_initialized = ei_thread_storage_init();
+	}
 
-#include <stddef.h>
+	ei_logger_manager_init();
 
-typedef struct {
-    char *data;
-    size_t max_size;
-    size_t position;
-} ei_string_builder;
+	return ei_thread_storage_initialized;
+}
 
-ei_string_builder *ei_string_builder_create();
+void ei_uninit() {
+	ei_logger_manager_uninit();
 
-ei_string_builder *ei_string_builder_create_size(size_t max_size);
-
-bool ei_string_builder_append(ei_string_builder *s, char *data, size_t data_len);
-
-bool ei_string_builder_append_variadic(ei_string_builder *s, const char *format, ...);
-
-void ei_string_builder_clean_up(ei_string_builder *s);
-
-void ei_string_builder_destroy(ei_string_builder *s);
-
-char *ei_string_builder_get_data(ei_string_builder *s);
-
-size_t ei_string_builder_get_position(ei_string_builder *s);
-
-#endif
+	if (ei_thread_storage_initialized) {
+		ei_thread_storage_uninit();
+	}
+}

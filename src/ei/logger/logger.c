@@ -26,9 +26,9 @@
  * under the terms of the MIT license. See `log.c` for details.
  */
 
-#include <errorinterceptor/logger/logger.h>
-#include <errorinterceptor/alloc.h>
-#include <errorinterceptor/string/string_utility.h>
+#include <ei/logger/logger.h>
+#include <ei/alloc.h>
+#include <ei/string/string_utility.h>
 
 #include <stdio.h>
 #include <stdlib.h>
