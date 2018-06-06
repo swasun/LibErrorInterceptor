@@ -1,4 +1,4 @@
-## @brief ErrorInteceptor
+## @brief LibErrorInteceptor
 ## @author Charly Lamothe
 
 
@@ -83,7 +83,7 @@ if (UNIX)
 endif ()
 
 
-# --- BUILD ERRORINTERCEPTOR ---
+# --- BUILD LIBERRORINTERCEPTOR ---
 
 # Options
 set(PROJECT_NAME_STATIC "${PROJECT_NAME}_static")
