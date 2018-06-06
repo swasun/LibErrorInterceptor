@@ -13,6 +13,11 @@
 ./clean.sh
 ```
 
+## Install
+```bash
+./build_release.sh && sudo ./install.sh
+```
+
 ## Examples
 
 All examples are in `examples` directory.
