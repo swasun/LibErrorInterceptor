@@ -7,3 +7,4 @@
 - Improve thread_storage
 - Check if ei_mutex module works correctly on Windows
 - Remove unnecessary functions in string module.
+- Handle system logging.
