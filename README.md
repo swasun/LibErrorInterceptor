@@ -24,7 +24,7 @@ All examples are in `examples` directory.
 ```
 
 ```c
-#include <errorinterceptor/errorinterceptor.h>
+#include <ei/ei.h>
 
 #include <stdlib.h>
 
@@ -80,7 +80,7 @@ int main() {
 ```
 
 ```c
-#include <errorinterceptor/errorinterceptor.h>
+#include <ei/ei.h>
 
 #include <stdlib.h>
 
