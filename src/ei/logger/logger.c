@@ -39,8 +39,8 @@
 
 #if defined(__unix__)
 
-#define ERRORINTERCEPTOR_SKY_BLei_COLOR                   "\x1b[94m"
-#define ERRORINTERCEPTOR_TURQUOISE_BLei_COLOR             "\x1b[36m"
+#define ERRORINTERCEPTOR_SKY_BLUE_COLOR                   "\x1b[94m"
+#define ERRORINTERCEPTOR_TURQUOISE_BLUE_COLOR             "\x1b[36m"
 #define ERRORINTERCEPTOR_GREEN_COLOR                      "\x1b[32m"
 #define ERRORINTERCEPTOR_YELLOW_COLOR                     "\x1b[33m"
 #define ERRORINTERCEPTOR_RED_COLOR                        "\x1b[31m"
@@ -50,8 +50,8 @@
 
 #elif defined(_WIN32) || defined(_WIN64)
 
-#define ERRORINTERCEPTOR_SKY_BLei_COLOR                   ""
-#define ERRORINTERCEPTOR_TURQUOISE_BLei_COLOR             ""
+#define ERRORINTERCEPTOR_SKY_BLUE_COLOR                   ""
+#define ERRORINTERCEPTOR_TURQUOISE_BLUE_COLOR             ""
 #define ERRORINTERCEPTOR_GREEN_COLOR                      ""
 #define ERRORINTERCEPTOR_YELLOW_COLOR                     ""
 #define ERRORINTERCEPTOR_RED_COLOR                        ""
@@ -79,8 +79,8 @@ ei_logger *ei_logger_create() {
     log->message_color_as_level_color = false;
 
     ei_safe_alloc(log->level_colors, char *, 6);
-    log->level_colors[ERRORINTERCEPTOR_LOG_TRACE] = ei_string_create_from(ERRORINTERCEPTOR_SKY_BLei_COLOR);
-    log->level_colors[ERRORINTERCEPTOR_LOG_DEBUG] = ei_string_create_from(ERRORINTERCEPTOR_TURQUOISE_BLei_COLOR);
+    log->level_colors[ERRORINTERCEPTOR_LOG_TRACE] = ei_string_create_from(ERRORINTERCEPTOR_SKY_BLUE_COLOR);
+    log->level_colors[ERRORINTERCEPTOR_LOG_DEBUG] = ei_string_create_from(ERRORINTERCEPTOR_TURQUOISE_BLUE_COLOR);
     log->level_colors[ERRORINTERCEPTOR_LOG_INFO] = ei_string_create_from(ERRORINTERCEPTOR_GREEN_COLOR);
     log->level_colors[ERRORINTERCEPTOR_LOG_WARNING] = ei_string_create_from(ERRORINTERCEPTOR_YELLOW_COLOR);
     log->level_colors[ERRORINTERCEPTOR_LOG_ERROR] = ei_string_create_from(ERRORINTERCEPTOR_RED_COLOR);
