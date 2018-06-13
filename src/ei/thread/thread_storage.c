@@ -31,6 +31,7 @@ typedef struct {
     int to_be_deleted_number;
     char *char_data;
     int int_data;
+	ei_logger *log;
 } thread_data;
 
 typedef struct {
@@ -76,6 +77,8 @@ static thread_data *resolve_current_thread_data() {
 		if (storage->data[i]->ei_thread_id == -1) {
 			storage->data[i]->ei_thread_id = current_thread_id;
 			ei_stacktrace_create(&storage->data[i]->st);
+			storage->data[i]->log = ei_logger_create();
+			ei_logger_set_details(storage->data[i]->log, false);
 			return storage->data[i];
 		}
 	}
@@ -91,6 +94,7 @@ static void thread_data_destroy(thread_data *td) {
 	}
 
 	ei_stacktrace_destroy(td->st);
+	ei_logger_destroy(td->log);
 
 	if (td->to_be_deleted) {
 		for (i = 0; i < td->to_be_deleted_number; i++) {
@@ -263,4 +267,15 @@ int ei_thread_storage_get_int_data() {
 	}
 
 	return current_thread_data->int_data;
+}
+
+ei_logger *ei_thread_storage_get_logger() {
+	thread_data *current_thread_data;
+
+	current_thread_data = resolve_current_thread_data();
+	if (!current_thread_data) {
+		return NULL;
+	}
+
+	return current_thread_data->log;
 }

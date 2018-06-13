@@ -97,10 +97,10 @@ char *ei_strcat_variadic(const char *format, ...) {
 			L = va_arg(ap, long long int);
 			ei_safe_alloc(src, char, 20);
 #if defined(_WIN32) || defined(_WIN64)
-            _Pragma("GCC diagnostic push")
-            _Pragma("GCC diagnostic ignored \"-Wformat\"")
+            //_Pragma("GCC diagnostic push")
+			//_Pragma("GCC diagnostic ignored \"-Wformat\"")
                 sprintf(src, "%I64d", L);
-            _Pragma("GCC diagnostic pop")
+				//_Pragma("GCC diagnostic pop")
 #else
             sprintf(src, "%lld", L);
 #endif

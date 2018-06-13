@@ -29,6 +29,7 @@
 
 #include <ei/bool.h>
 #include <ei/stacktrace/stacktrace_struct.h>
+#include <ei/logger/logger_struct.h>
 
 bool ei_thread_storage_init();
 
@@ -49,5 +50,7 @@ char *ei_thread_storage_get_char_data();
 bool ei_thread_storage_set_int_data(int data);
 
 int ei_thread_storage_get_int_data();
+
+ei_logger *ei_thread_storage_get_logger();
 
 #endif

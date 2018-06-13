@@ -29,6 +29,15 @@ endif ()
 
 # --- COMPILE OPTIONS ---
 
+if (MSVC)
+    # Use secure functions by defaualt and suppress warnings about
+    #"deprecated" functions
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES_COUNT=1")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D _CRT_NONSTDC_NO_WARNINGS=1 /D _CRT_SECURE_NO_WARNINGS=1")
+endif ()
+
+
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")     ## (not debug)
     if(CMAKE_COMPILER_IS_GNUCXX)              ## (GNU COMMAND)
         add_compile_options("-O3")            ### No Optimization
@@ -41,15 +50,20 @@ endif ()
 if (UNIX)
     add_compile_options("-std=gnu99" "-pthread" "-ldl")
 elseif (WIN32)
-    add_compile_options("-std=c99" "-lkernel32" "-lntdll")
+    #add_compile_options("std=c99" "lkernel32" "lntdll")
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        add_compile_options("-static-libgcc" "-ggdb")
+        add_compile_options("static-libgcc" "ggdb")
     endif ()
+	set(CMAKE_C_FLAGS "${CMAKE_ENABLE_C99}")
 else ()
     add_compile_options("-std=c99")
 endif ()
 
-add_compile_options("-Wall" "-Werror" "-pedantic" "-fno-builtin")
+if (UNIX)
+	add_compile_options("-Wall" "-pedantic" "-fno-builtin")
+elseif (WIN32)
+	#add_compile_options("Wall" "pedantic" "fno-builtin")
+endif ()
 
 if (WIN32)
     macro(get_WIN32_WINNT version)
@@ -62,6 +76,8 @@ if (WIN32)
     endmacro()
     get_WIN32_WINNT(ver)
     add_definitions(-D_WIN32_WINNT=${ver})
+
+	set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif ()
 
 # CCache
@@ -102,7 +118,6 @@ target_include_directories(${PROJECT_NAME_STATIC} PUBLIC "${SRC_PATH}")
 set_target_properties(${PROJECT_NAME_STATIC} PROPERTIES OUTPUT_NAME ei)
 target_link_libraries(${PROJECT_NAME_STATIC} ${CMAKE_THREAD_LIBS_INIT})
 
-
 # --- INSTALL ---
 
 if (UNIX)
@@ -123,5 +138,7 @@ foreach (filePath ${files} )
 	message(STATUS "Build Program : ${executableName}")
 	add_executable(${executableName} ${filePath})
     target_link_libraries(${executableName} ${PROJECT_NAME_STATIC})
-    set_target_properties(${executableName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_OUTPUT_PATH})
+    if (UNIX)
+		set_target_properties(${executableName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_OUTPUT_PATH})
+	endif ()
 endforeach ()
