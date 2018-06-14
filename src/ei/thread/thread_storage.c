@@ -19,6 +19,7 @@
 
 #include <ei/thread/thread_storage.h>
 #include <ei/stacktrace/stacktrace.h>
+#include <ei/logger/logger.h>
 
 #include <string.h>
 #include <stdlib.h>
