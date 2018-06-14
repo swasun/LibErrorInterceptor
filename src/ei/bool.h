@@ -27,16 +27,23 @@
 #ifndef ERRORINTERCEPTOR_BOOL_H
 #define ERRORINTERCEPTOR_BOOL_H
 
-/* C99 */
+ /* C99 */
 #if __STDC_VERSION__ >= 199901L
 
 #include <stdbool.h>
 
+#elif defined(_MSC_VER)
+
+#define bool _Bool
+#define true 1
+#define false 0
+#define __bool_true_false_are_defined 1
+
 #else /* Not C99 */
 
 typedef enum {
-    false,
-    true
+	false,
+	true
 } bool;
 
 #endif
