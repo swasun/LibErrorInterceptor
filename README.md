@@ -2,28 +2,6 @@
 
 A lightweight and cross-plateform library to handle stacktrace and logging in C99.
 
-## Build
-
-### Debug mode
-```bash
-./build_debug.sh
-```
-
-### Release mode
-```bash
-./build_release.sh
-```
-
-### Clean
-```bash
-./clean.sh
-```
-
-### Install
-```bash
-./build_release.sh && sudo ./install.sh
-```
-
 ## Examples
 
 All examples are in `examples` directory.
@@ -119,6 +97,28 @@ int main() {
 Output:
 
 ![logger example](/img/logger_example.png)
+
+## Build
+
+### Debug mode
+```bash
+./build_debug.sh
+```
+
+### Release mode
+```bash
+./build_release.sh
+```
+
+### Clean
+```bash
+./clean.sh
+```
+
+### Install
+```bash
+./build_release.sh && sudo ./install.sh
+```
 
 ### Cross-plateform
 
