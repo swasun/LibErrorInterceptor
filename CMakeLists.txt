@@ -129,6 +129,21 @@ if (UNIX)
 
     # Copy shared library
     install (TARGETS ${PROJECT_NAME_SHARED} LIBRARY DESTINATION "/usr/lib")
+elseif (WIN32)
+	# Copy includes
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include FILES_MATCHING PATTERN "*.h")
+
+	# Copy static library
+	install (
+		TARGETS ${PROJECT_NAME_STATIC}
+		ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+		LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+	)
+
+	install (
+		TARGETS ${PROJECT_NAME_SHARED}
+		RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+	)
 endif ()
 
 # Build examples
@@ -138,7 +153,5 @@ foreach (filePath ${files} )
 	message(STATUS "Build Program : ${executableName}")
 	add_executable(${executableName} ${filePath})
     target_link_libraries(${executableName} ${PROJECT_NAME_STATIC})
-    if (UNIX)
-		set_target_properties(${executableName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_OUTPUT_PATH})
-	endif ()
+	set_target_properties(${executableName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_OUTPUT_PATH})
 endforeach ()
