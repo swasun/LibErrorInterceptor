@@ -109,11 +109,7 @@ target_link_libraries(${PROJECT_NAME_SHARED} ${CMAKE_THREAD_LIBS_INIT})
 # Build static library
 add_library(${PROJECT_NAME_STATIC} STATIC ${PROGRAM_TARGET_SRC_FILES})
 target_include_directories(${PROJECT_NAME_STATIC} PUBLIC "${SRC_PATH}")
-if (MSVC)
-	set_target_properties(${PROJECT_NAME_STATIC} PROPERTIES OUTPUT_NAME ei_static)
-else ()
-	set_target_properties(${PROJECT_NAME_STATIC} PROPERTIES OUTPUT_NAME ei)
-endif ()
+set_target_properties(${PROJECT_NAME_STATIC} PROPERTIES OUTPUT_NAME ei_static)
 target_link_libraries(${PROJECT_NAME_STATIC} ${CMAKE_THREAD_LIBS_INIT})
 
 # --- INSTALL ---
