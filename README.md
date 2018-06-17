@@ -120,7 +120,7 @@ Output:
 ./build_release.sh && sudo ./install.sh
 ```
 
-### Cross-plateform
+## Cross-plateform
 
 Tested on:
 * Windows x86
