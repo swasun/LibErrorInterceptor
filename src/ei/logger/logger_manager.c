@@ -20,18 +20,18 @@
 #include <ei/logger/logger_manager.h>
 #include <ei/thread/thread_storage.h>
 
-//static ei_logger *log = NULL;
+static ei_logger *log = NULL;
 
 bool ei_logger_manager_init() {
-    /*log = ei_logger_create();
-    ei_logger_set_details(log, false);*/
+    log = ei_logger_create();
+    ei_logger_set_details(log, false);
     return true;
 }
 
 void ei_logger_manager_uninit() {
-    //ei_logger_destroy(log);
+    ei_logger_destroy(log);
 }
 
 ei_logger *ei_logger_manager_get_logger() {
-    return ei_thread_storage_get_logger();
+    return log;
 }
