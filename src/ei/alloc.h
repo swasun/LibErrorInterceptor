@@ -34,7 +34,55 @@
 
 #include <ei/stacktrace/stacktrace.h>
 
-/**
+ /**
+ * Check if a variable is unsigned
+ *
+ * @source: https://stackoverflow.com/a/9629354
+ * @source: https://stackoverflow.com/a/7317613
+ * @todo fix for unsigned char
+ */
+#if defined(__GNUC__)
+
+ //_Pragma("GCC diagnostic push")
+ //_Pragma("GCC diagnostic ignored \"-Werror\"")
+ //#pragma GCC diagnostic ignored "-Werror")
+
+ //#define ISUNSIGNED(a) (a>=0 && ((a=~a)>=0 ? (a=~a, 1) : (a=~a, 0)))
+
+ //#pragma GCC diagnostic pop
+ //_Pragma("GCC diagnostic pop")
+
+#define ISUNSIGNED(a) (a >= 0 && ~a >= 0)
+
+#else
+
+#define ISUNSIGNED(a) (a >= 0 && ~a >= 0)
+
+#endif
+
+#ifdef _WIN32
+
+ /**
+ * Disable a warning on win32 platform
+ * You must call DISABLE_WIN32_PRAGMA_WARN_END afterwards
+ *
+ * @source: https://stackoverflow.com/a/13577924
+ */
+#define DISABLE_WIN32_PRAGMA_WARN(nnn) \
+__pragma (warning (push)) \
+__pragma (warning(disable : nnn)) \
+
+#define DISABLE_WIN32_PRAGMA_WARN_END \
+__pragma (warning (pop)) \
+
+#else
+
+#define DISABLE_WIN32_PRAGMA_WARN(nnn)
+#define DISABLE_WIN32_PRAGMA_WARN_END
+
+#endif
+
+ /**
  *  @brief Alloc a variable in a safe way.
  *
  *  Set variable to NULL,
@@ -43,22 +91,26 @@
  *  Check if variable is correctly allocated.
  */
 #define ei_safe_alloc(var, type, size) \
-	if (size <= 0) { \
-		ei_stacktrace_push_msg("Can't allocate data with a negative or null size '%d'", (int)size); \
+DISABLE_WIN32_PRAGMA_WARN(4127) \
+	if ((ISUNSIGNED(size) && size == 0) || (!ISUNSIGNED(size) && size <= 0)) { \
+DISABLE_WIN32_PRAGMA_WARN_END \
+		ei_stacktrace_push_msg("Can't allocate data with a negative or null size"); \
 		return 0; \
 	} \
 	var = NULL; \
-	var = (type*)malloc(size * sizeof(type)); \
+	var = (type *)malloc(size * sizeof(type)); \
 	memset(var, 0, size * sizeof(type)); \
     ei_check_alloc(var) \
 
 #define ei_safe_alloc_ret(var, type, size, ret) \
-	if (size <= 0) { \
-		ei_stacktrace_push_msg("Can't allocate data with a negative or null size '%d'", (int)size); \
+DISABLE_WIN32_PRAGMA_WARN(4127) \
+	if ((ISUNSIGNED(size) && size == 0) || (!ISUNSIGNED(size) && size <= 0)) { \
+DISABLE_WIN32_PRAGMA_WARN_END \
+		ei_stacktrace_push_msg("Can't allocate data with a negative or null size"); \
 		ret = 0; \
 	} else { \
 		var = NULL; \
-		var = (type*)malloc(size * sizeof(type)); \
+		var = (type *)malloc(size * sizeof(type)); \
 		memset(var, 0, size * sizeof(type)); \
 	    if (errno == ENOMEM) { \
 	        ei_stacktrace_push_errno() \
@@ -71,7 +123,7 @@
 		ret = 1; \
 	} \
 
-/**
+ /**
  *  @brief Alloc a variable in a safe way.
  *
  *  Set variable to NULL,
@@ -80,16 +132,18 @@
  *  Check if variable is correctly allocated. If not, go to specified label
  */
 #define ei_safe_alloc_or_goto(var, type, size, label) \
-	if (size <= 0) { \
-		ei_stacktrace_push_msg("Can't allocate data with a negative or null size '%d'", (int)size); \
+DISABLE_WIN32_PRAGMA_WARN(4127) \
+	if ((ISUNSIGNED(size) && size == 0) || (!ISUNSIGNED(size) && size <= 0)) { \
+DISABLE_WIN32_PRAGMA_WARN_END \
+		ei_stacktrace_push_msg("Can't allocate data with a negative or null size"); \
 		goto label; \
 	} \
 	var = NULL; \
-	var = (type*)malloc(size * sizeof(type)); \
+	var = (type *)malloc(size * sizeof(type)); \
 	memset(var, 0, size * sizeof(type)); \
     ei_check_alloc_or_goto(var, label) \
 
-/**
+ /**
  *  @brief Realloc a variable in a safe way.
  *
  *  If size has to be increase, we add specified more size.
@@ -98,19 +152,23 @@
  *  Check if variable is correctly allocated.
  */
 #define ei_safe_realloc(var, type, old_size, more_size) \
-	if (old_size < 0) { \
-		ei_stacktrace_push_msg("Can't allocate data with a negative old_size '%d'", (int)old_size); \
+DISABLE_WIN32_PRAGMA_WARN(4127) \
+	if (!ISUNSIGNED(old_size) && old_size < 0) { \
+DISABLE_WIN32_PRAGMA_WARN_END \
+		ei_stacktrace_push_msg("Can't allocate data with a negative old_size"); \
 		return 0; \
 	} \
-	if (old_size == 0 && more_size <= 0) { \
-		ei_stacktrace_push_msg("Can't allocate data with an old_size equal to 0 and a null or negative more_size '%d'", (int)more_size); \
+DISABLE_WIN32_PRAGMA_WARN(4127) \
+	if (old_size == 0 && ((ISUNSIGNED(more_size) && more_size == 0) || (!ISUNSIGNED(more_size) && more_size <= 0))) { \
+DISABLE_WIN32_PRAGMA_WARN_END \
+		ei_stacktrace_push_msg("Can't allocate data with an old_size equal to 0 and a null or negative more_size"); \
 	    return 0; \
 	} \
-	var = (type*)realloc(var, (old_size + more_size + 1) * sizeof(type)); \
+	var = (type *)realloc(var, (old_size + more_size + 1) * sizeof(type)); \
 	memset(var + old_size, 0, (more_size + 1) * sizeof(type)); \
     ei_check_alloc(var) \
 
-/**
+ /**
  *  @brief Realloc a variable in a safe way.
  *
  *  If size has to be increase, we add specified more size.
@@ -119,19 +177,23 @@
  *  Check if variable is correctly allocated. If not, go to specified label
  */
 #define ei_safe_realloc_or_goto(var, type, old_size, more_size, label) \
-	if (old_size < 0) { \
+DISABLE_WIN32_PRAGMA_WARN(4127) \
+	if (!ISUNSIGNED(old_size) && old_size < 0) { \
+DISABLE_WIN32_PRAGMA_WARN_END \
 		ei_stacktrace_push_msg("Can't allocate data with a negative old_size '%d'", (int)old_size); \
 	    goto label; \
 	} \
-	if (old_size == 0 && more_size <= 0) { \
+DISABLE_WIN32_PRAGMA_WARN(4127) \
+	if (old_size == 0 && ((ISUNSIGNED(more_size) && more_size == 0) || (!ISUNSIGNED(more_size) && more_size <= 0))) { \
+DISABLE_WIN32_PRAGMA_WARN_END \
 		ei_stacktrace_push_msg("Can't allocate data with an old_size equal to 0 and a null or negative more_size '%d'", (int)more_size); \
 	    goto label; \
 	} \
-	var = (type*)realloc(var, (old_size + more_size + 1) * sizeof(type)); \
+	var = (type *)realloc(var, (old_size + more_size + 1) * sizeof(type)); \
 	memset(var + old_size, 0, (more_size + 1) * sizeof(type)); \
     ei_check_alloc_or_goto(var, label) \
 
-/**
+ /**
  *  @brief Check if a variable is correctly allocated.
  *
  *  Check if 'errno' variable is equal to value ENOMEM ;
@@ -150,7 +212,7 @@
 		return 0; \
 	} \
 
-/**
+ /**
  *  @brief Same behavior than CHECK_ALLOC, but if var isn't
  *  correctly allocated, go to specified label.
  */
@@ -164,7 +226,7 @@
 		goto label; \
 	} \
 
-/**
+ /**
  *  @brief Free a variable in a safe way.
  *
  *  Check if variable isn't set to NULL ;
@@ -172,7 +234,7 @@
  */
 #define ei_safe_free(var) \
 	if (var) { \
-		free((void*)var); \
+		free((void *)var); \
 		var = NULL; \
 	} \
 
@@ -184,7 +246,7 @@
 		} \
 	} \
 
-/**
+ /**
  *  @brief Close a file in a safe way.
  *
  *  Check if the file descriptor isn't set to NULL ;
@@ -194,6 +256,6 @@
 	if (fd) { \
 		fclose(fd); \
 		fd = NULL; \
-	} \
+} \
 
 #endif
