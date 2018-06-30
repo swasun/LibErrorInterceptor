@@ -11,6 +11,7 @@ cmake_minimum_required(VERSION 3.8)
 # --- GLOBAL OPTIONS ---
 
 set(CMAKE_VERBOSE_MAKEFILE on)
+set(BUILD_EXAMPLE on)
 
 # --- PATH ---
 
@@ -140,12 +141,13 @@ elseif (WIN32)
 	)
 endif ()
 
-# Build examples
-file(GLOB files "${EXAMPLES_PATH}/*.c")
-foreach (filePath ${files} )
-	get_filename_component(executableName ${filePath} NAME_WE)
-	message(STATUS "Build Program : ${executableName}")
-	add_executable(${executableName} ${filePath})
-    target_link_libraries(${executableName} ${PROJECT_NAME_STATIC})
-	set_target_properties(${executableName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_OUTPUT_PATH})
-endforeach ()
+if (BUILD_EXAMPLE)
+	# Build examples
+	file(GLOB files "${EXAMPLES_PATH}/*.c")
+	foreach (filePath ${files} )
+		get_filename_component(executableName ${filePath} NAME_WE)
+		add_executable(${executableName} ${filePath})
+		target_link_libraries(${executableName} ${PROJECT_NAME_STATIC})
+		set_target_properties(${executableName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_OUTPUT_PATH})
+	endforeach ()
+endif ()
