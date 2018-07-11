@@ -68,12 +68,12 @@
  *
  * @source: https://stackoverflow.com/a/13577924
  */
-//#define DISABLE_WIN32_PRAGMA_WARN(nnn) \
-//__pragma (warning (push)) \
-//__pragma (warning(disable : nnn)) \
+//#define DISABLE_WIN32_PRAGMA_WARN(nnn)
+//__pragma (warning (push))
+//__pragma (warning(disable : nnn))
 
-//#define DISABLE_WIN32_PRAGMA_WARN_END \
-//__pragma (warning (pop)) \
+//#define DISABLE_WIN32_PRAGMA_WARN_END
+//__pragma (warning (pop))
 
 #define DISABLE_WIN32_PRAGMA_WARN(nnn)
 #define DISABLE_WIN32_PRAGMA_WARN_END
