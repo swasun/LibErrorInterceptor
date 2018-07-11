@@ -75,6 +75,9 @@
 //#define DISABLE_WIN32_PRAGMA_WARN_END \
 //__pragma (warning (pop)) \
 
+#define DISABLE_WIN32_PRAGMA_WARN(nnn)
+#define DISABLE_WIN32_PRAGMA_WARN_END
+
 #else
 
 #define DISABLE_WIN32_PRAGMA_WARN(nnn)
