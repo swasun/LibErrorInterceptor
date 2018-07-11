@@ -60,7 +60,7 @@
 
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
 
  /**
  * Disable a warning on win32 platform
