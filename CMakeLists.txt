@@ -12,8 +12,6 @@ cmake_minimum_required(VERSION 3.8)
 
 set(CMAKE_VERBOSE_MAKEFILE on)
 set(BUILD_EXAMPLE on)
-set(CMAKE_STATIC_LIBRARY_PREFIX "")
-set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 # --- PATH ---
 
@@ -113,7 +111,6 @@ target_link_libraries(${PROJECT_NAME_SHARED} ${CMAKE_THREAD_LIBS_INIT})
 add_library(${PROJECT_NAME_STATIC} STATIC ${PROGRAM_TARGET_SRC_FILES})
 target_include_directories(${PROJECT_NAME_STATIC} PUBLIC "${SRC_PATH}")
 set_target_properties(${PROJECT_NAME_STATIC} PROPERTIES OUTPUT_NAME ei_static)
-set_target_properties(${PROJECT_NAME_STATIC} PROPERTIES SUFFIX ".lib")
 target_link_libraries(${PROJECT_NAME_STATIC} ${CMAKE_THREAD_LIBS_INIT})
 
 # --- INSTALL ---
