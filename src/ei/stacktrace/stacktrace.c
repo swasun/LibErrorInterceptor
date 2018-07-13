@@ -188,7 +188,7 @@ char *ei_stacktrace_get_cause() {
 }
 
 bool ei_stacktrace_is_filled_this(ei_stacktrace *stack) {
-	return stack->elements > 0 ? true : false;
+	return stack && stack->elements > 0 ? true : false;
 }
 
 bool ei_stacktrace_is_filled() {

@@ -58,7 +58,9 @@ int main() {
         ei_stacktrace_push_msg("bar failed !");
     }
 
-    ei_stacktrace_print();
+    if (ei_stacktrace_is_filled()) {
+        ei_stacktrace_print();
+    }
 
     ei_uninit();
 
