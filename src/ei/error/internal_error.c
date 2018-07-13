@@ -78,7 +78,7 @@ char *ei_internal_error_to_string(ei_error *e) {
 	size += strlen(e->func_name);
 	size += strlen(e->file_name);
 	size += strlen(line_number_buffer);
-	free((void*)line_number_buffer);
+	free((void *)line_number_buffer);
 
 	if (e->is_main_error) {
 		size += strlen("Caused by: \n");
@@ -100,7 +100,7 @@ char *ei_internal_error_to_string(ei_error *e) {
 		e->line_number
 	);
 
-	free((void*)prefix);
+	free((void *)prefix);
 
 	return error_buffer;
 }
@@ -112,5 +112,5 @@ void ei_internal_error_print(ei_error *e, FILE *out) {
 
 	fprintf(out, "%s\n", error_buffer);
 
-	free((void*)error_buffer);
+	free((void *)error_buffer);
 }

@@ -81,7 +81,7 @@ ei_logger *ei_logger_create() {
     log->details = true;
     log->padding = false;
     log->message_color_as_level_color = false;
-    log->level_names = level_status;
+    log->level_names = (char **)level_status;
 
     ei_safe_alloc(log->level_colors, char *, 6);
     log->level_colors[ERRORINTERCEPTOR_LOG_TRACE] = ei_string_create_from(ERRORINTERCEPTOR_SKY_BLUE_COLOR);
@@ -154,9 +154,9 @@ void ei_logger_set_message_color_as_level_color(ei_logger *log, bool enable) {
 
 void ei_logger_set_symbol_levels(ei_logger *log, bool enable) {
     if (enable) {
-        log->level_names = level_symbols;
+        log->level_names = (char **)level_symbols;
     } else {
-        log->level_names = level_status;
+        log->level_names = (char **)level_status;
     }
 }
 

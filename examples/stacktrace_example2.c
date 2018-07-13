@@ -19,44 +19,15 @@
 
 #include <ei/ei.h>
 
-#include <stdlib.h>
-
-bool foo(void *parameter) {
-    if (!parameter) {
-        ei_stacktrace_push_msg("Specified parameter is invalid");
-        return false;
-    }
-
-    return true;
-}
-
-bool bar(void *parameter) {
-    if (!foo(parameter)) {
-        ei_stacktrace_push_msg("foo failed :(");
-        return false;
-    }
-
-    return true;
-}
-
 /**
  * output:
- * bar failed ! (thread 140171980306240)
- * Caused by: Specified parameter is invalid
- *    at foo (stacktrace_example.c:26)
- *    at bar (stacktrace_example.c:35)
- *    at main (stacktrace_example.c:58)
+ * Oops ! (thread 140164974479168)
+ *    at main (stacktrace_example2.c:33)
  */
 int main() {
-    void *arg;
-
-    arg = NULL;
-
     ei_init_or_die();
 
-    if (!bar(arg)) {
-        ei_stacktrace_push_msg("bar failed !");
-    }
+    ei_stacktrace_push_msg("Oops !");
 
     if (ei_stacktrace_is_filled()) {
         ei_stacktrace_print();

@@ -90,8 +90,11 @@ char *ei_stacktrace_to_string(ei_stacktrace *stack) {
 	ei_thread_id_buffer = (char *)malloc(20 * sizeof(char));
 	sprintf(ei_thread_id_buffer, "%lu", stack->ei_thread_id);
 
-	/* Print the most important error at the top of the stacktrace */
-	stack->errors[0]->is_main_error = true;
+	/**
+	 * Print the most important error at the top of the stacktrace,
+	 * unless there's only one error in the stacktrace.
+	 */
+	stack->errors[0]->is_main_error = stack->elements > 1 ? true : false;
 
 	size = 0;
 	size = strlen(stack->errors[stack->elements - 1]->description);
@@ -105,7 +108,7 @@ char *ei_stacktrace_to_string(ei_stacktrace *stack) {
 		free((void *)error_buffer);
 	}
 
-	ei_stacktrace_buffer = (char*)malloc((size + 1) * sizeof(char));
+	ei_stacktrace_buffer = (char *)malloc((size + 1) * sizeof(char));
 	if (errno == ENOMEM || !ei_stacktrace_buffer) {
 		free((void *)ei_stacktrace_buffer);
 		return NULL;
