@@ -60,7 +60,7 @@
 
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
 
  /**
  * Disable a warning on win32 platform
@@ -68,12 +68,15 @@
  *
  * @source: https://stackoverflow.com/a/13577924
  */
-#define DISABLE_WIN32_PRAGMA_WARN(nnn) \
-__pragma (warning (push)) \
-__pragma (warning(disable : nnn)) \
+//#define DISABLE_WIN32_PRAGMA_WARN(nnn)
+//__pragma (warning (push))
+//__pragma (warning(disable : nnn))
 
-#define DISABLE_WIN32_PRAGMA_WARN_END \
-__pragma (warning (pop)) \
+//#define DISABLE_WIN32_PRAGMA_WARN_END
+//__pragma (warning (pop))
+
+#define DISABLE_WIN32_PRAGMA_WARN(nnn)
+#define DISABLE_WIN32_PRAGMA_WARN_END
 
 #else
 

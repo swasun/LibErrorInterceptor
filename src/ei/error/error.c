@@ -34,7 +34,7 @@ ei_error *ei_error_create(char *func_name, char *file_name, int line_number, cha
 
 	#ifdef __linux__
         slash = '/';
-    #elif _WIN32
+    #elif defined(_WIN32) || defined(_WIN64)
         slash = '\\';
     #else
         #error "OS not supported"
@@ -75,7 +75,7 @@ ei_error *ei_error_create_variadic(char *func_name, char *file_name, int line_nu
 
 	#ifdef __linux__
         slash = '/';
-    #elif _WIN32
+    #elif defined(_WIN32) || defined(_WIN64)
         slash = '\\';
     #else
         #error "OS not supported"
