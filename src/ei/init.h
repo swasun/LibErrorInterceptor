@@ -27,7 +27,16 @@
 #ifndef ERRORINTERCEPTOR_INIT_H
 #define ERRORINTERCEPTOR_INIT_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 int ei_init();
+
+#define ei_init_or_die() \
+    if (!ei_init()) { \
+        fprintf(stderr, "[FATAL] Failed to initialize LibErrorInterceptor"); \
+        exit(EXIT_FAILURE); \
+    } \
 
 void ei_uninit();
 

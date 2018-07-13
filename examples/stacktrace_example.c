@@ -52,7 +52,7 @@ int main() {
 
     arg = NULL;
 
-    ei_init();
+    ei_init_or_die();
 
     if (!bar(arg)) {
         ei_stacktrace_push_msg("bar failed !");

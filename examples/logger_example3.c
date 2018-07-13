@@ -22,7 +22,7 @@
 #include <stdlib.h>
 
 int main() {
-    ei_init();
+    ei_init_or_die();
 
     ei_logger_use_symbol_levels();
     ei_logger_use_message_color_as_level_color();

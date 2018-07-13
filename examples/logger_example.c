@@ -22,7 +22,7 @@
 #include <stdlib.h>
 
 int main() {
-    ei_init();
+    ei_init_or_die();
 
     ei_logger_trace("Loading library...");
 
