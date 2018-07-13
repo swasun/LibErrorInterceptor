@@ -62,6 +62,10 @@ void ei_logger_set_message_color(ei_logger *log, const char *color);
 
 void ei_logger_set_message_color_as_level_color(ei_logger *log, bool enable);
 
+void ei_logger_set_symbol_levels(ei_logger *log, bool enable);
+
+#define ei_logger_use_symbol_levels() ei_logger_set_symbol_levels(ei_logger_manager_get_logger(), true)
+
 bool ei_logger_record(ei_logger *log, int level, const char *file, int line, const char *fmt, ...);
 
 bool ei_logger_record_stacktrace(ei_logger *log, ei_stacktrace *stacktrace, const char *message, const char *file, int line);

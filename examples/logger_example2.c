@@ -17,42 +17,28 @@
  *   along with LibErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>. *
  **********************************************************************************/
 
-/**
- *  @file      logger_struct.h
- *  @brief     Logger structure that contains the context of the log trace.
- *  @author    Charly Lamothe
- *  @copyright GNU Public License.
- *  @see       logger.h
- */
+#include <ei/ei.h>
 
-#ifndef ERRORINTERCEPTOR_LOGGER_STRUCT_H
-#define ERRORINTERCEPTOR_LOGGER_STRUCT_H
+#include <stdlib.h>
 
-#include <ei/bool.h>
-#include <ei/thread/thread_mutex.h>
+int main() {
+    ei_init();
 
-#include <stdio.h>
+    ei_logger_use_symbol_levels();
 
-typedef enum {
-    ERRORINTERCEPTOR_LOG_TRACE = 0,
-    ERRORINTERCEPTOR_LOG_DEBUG,
-    ERRORINTERCEPTOR_LOG_INFO,
-    ERRORINTERCEPTOR_LOG_WARNING,
-    ERRORINTERCEPTOR_LOG_ERROR,
-    ERRORINTERCEPTOR_LOG_FATAL
-} ei_logger_type;
+    ei_logger_trace("Loading library...");
 
-typedef struct {
-    int print_level, file_level;
-    bool colored;
-    bool details;
-    bool padding;
-    bool message_color_as_level_color;
-    FILE *fp;
-    ei_thread_mutex *mutex;
-    char **level_colors;
-    char *message_color;
-    char **level_names;
-} ei_logger;
+    ei_logger_debug("Variable value is %d", 58);
 
-#endif
+    ei_logger_info("User %s is now connected", "username");
+
+    ei_logger_warn("Loading time is consequently longer");
+
+    ei_logger_error("Invalid password");
+
+    ei_logger_fatal("Out of memory");
+
+    ei_uninit();
+
+    return EXIT_SUCCESS;
+}

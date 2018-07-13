@@ -61,8 +61,12 @@
 
 #endif
 
-static const char *level_names[] = {
+static const char *level_status[] = {
     "TRACE", "DEBUG", "INFO", "WARNING", "ERROR", "FATAL"
+};
+
+static const char *level_symbols[] = {
+    "~", "~", "+", "-", "-", "-"
 };
 
 ei_logger *ei_logger_create() {
@@ -77,6 +81,7 @@ ei_logger *ei_logger_create() {
     log->details = true;
     log->padding = false;
     log->message_color_as_level_color = false;
+    log->level_names = level_status;
 
     ei_safe_alloc(log->level_colors, char *, 6);
     log->level_colors[ERRORINTERCEPTOR_LOG_TRACE] = ei_string_create_from(ERRORINTERCEPTOR_SKY_BLUE_COLOR);
@@ -147,6 +152,14 @@ void ei_logger_set_message_color_as_level_color(ei_logger *log, bool enable) {
     log->message_color_as_level_color = enable;
 }
 
+void ei_logger_set_symbol_levels(ei_logger *log, bool enable) {
+    if (enable) {
+        log->level_names = level_symbols;
+    } else {
+        log->level_names = level_status;
+    }
+}
+
 bool ei_logger_record(ei_logger *log, int level, const char *file, int line, const char *fmt, ...) {
     time_t rawtime;
     struct tm *timeinfo;
@@ -169,7 +182,7 @@ bool ei_logger_record(ei_logger *log, int level, const char *file, int line, con
     date_time[strlen(date_time) - 1] = '\0';
 
     if (log->padding) {
-        padding_size = LEVEL_NAME_MAX_SIZE - strlen(level_names[level]);
+        padding_size = LEVEL_NAME_MAX_SIZE - strlen(log->level_names[level]);
     } else {
         padding_size = 0;
     }
@@ -187,14 +200,14 @@ bool ei_logger_record(ei_logger *log, int level, const char *file, int line, con
                 fprintf(stdout, "%s[%s] [%s:%d] ", log->level_colors[level], date_time, file, line);
             }
 
-            fprintf(stdout, "%s[%s]%*s%s %s", log->level_colors[level], level_names[level], padding_size,
+            fprintf(stdout, "%s[%s]%*s%s %s", log->level_colors[level], log->level_names[level], padding_size,
                 "", ERRORINTERCEPTOR_WHITE_COLOR, message_color);
         } else {
             if (log->details) {
                 fprintf(stdout, "[%s] [%s:%d] ", date_time, file, line);
             }
 
-            fprintf(stdout, "[%s]%*s ", level_names[level], padding_size, "");
+            fprintf(stdout, "[%s]%*s ", log->level_names[level], padding_size, "");
         }
 
         va_start(args, fmt);
@@ -212,7 +225,7 @@ bool ei_logger_record(ei_logger *log, int level, const char *file, int line, con
             fprintf(log->fp, "[%s] [%s:%d] ", date_time, file, line);
         }
 
-        fprintf(log->fp, "[%s]%*s ", level_names[level], padding_size, "");
+        fprintf(log->fp, "[%s]%*s ", log->level_names[level], padding_size, "");
 
         va_start(args, fmt);
         vfprintf(log->fp, fmt, args);
@@ -254,7 +267,7 @@ bool ei_logger_record_stacktrace(ei_logger *log, ei_stacktrace *stacktrace, cons
     date_time[strlen(date_time) - 1] = '\0';
 
     if (log->padding) {
-        padding_size = LEVEL_NAME_MAX_SIZE - strlen(level_names[ERRORINTERCEPTOR_LOG_WARNING]);
+        padding_size = LEVEL_NAME_MAX_SIZE - strlen(log->level_names[ERRORINTERCEPTOR_LOG_WARNING]);
     } else {
         padding_size = 0;
     }
@@ -272,14 +285,14 @@ bool ei_logger_record_stacktrace(ei_logger *log, ei_stacktrace *stacktrace, cons
                 fprintf(stdout, "%s[%s] [%s:%d] ", log->level_colors[ERRORINTERCEPTOR_LOG_ERROR], date_time, file, line);
             }
 
-            fprintf(stdout, "%s[%s]%*s%s %s", log->level_colors[ERRORINTERCEPTOR_LOG_ERROR], level_names[ERRORINTERCEPTOR_LOG_ERROR], padding_size,
+            fprintf(stdout, "%s[%s]%*s%s %s", log->level_colors[ERRORINTERCEPTOR_LOG_ERROR], log->level_names[ERRORINTERCEPTOR_LOG_ERROR], padding_size,
                 "", ERRORINTERCEPTOR_WHITE_COLOR, message_color);
         } else {
             if (log->details) {
                 fprintf(stdout, "[%s] [%s:%d] ", date_time, file, line);
             }
 
-            fprintf(stdout, "[%s]%*s ", level_names[ERRORINTERCEPTOR_LOG_ERROR], padding_size, "");
+            fprintf(stdout, "[%s]%*s ", log->level_names[ERRORINTERCEPTOR_LOG_ERROR], padding_size, "");
         }
 
         fprintf(stdout, "%s", message);
@@ -297,7 +310,7 @@ bool ei_logger_record_stacktrace(ei_logger *log, ei_stacktrace *stacktrace, cons
             fprintf(log->fp, " [%s] [%s:%d] ", date_time, file, line);
         }
 
-        fprintf(log->fp, "[%s]%*s %s\n", level_names[ERRORINTERCEPTOR_LOG_ERROR], padding_size, "", message);
+        fprintf(log->fp, "[%s]%*s %s\n", log->level_names[ERRORINTERCEPTOR_LOG_ERROR], padding_size, "", message);
 
         record_stacktrace(log->fp, stacktrace);
     }
