@@ -27,8 +27,10 @@
  */
 
 #include <ei/logger/logger.h>
-#include <ei/alloc.h>
 #include <ei/string/string_utility.h>
+#include <ei/stacktrace/stacktrace.h>
+#include <ei/check_parameter.h>
+#include <ei/alloc.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,6 +73,8 @@ static const char *level_symbols[] = {
 
 ei_logger *ei_logger_create() {
     ei_logger *log;
+
+    log = NULL;
 
     ei_safe_alloc(log, ei_logger, 1);
     log->print_level = 0;
