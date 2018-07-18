@@ -28,7 +28,9 @@ elseif (CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif ()
 
 
-# --- COMPILE OPTIONS ---
+# --- COMPILE OPTIONS
+
+set(CMAKE_C_FLAGS "-fPIC")
 
 if (MSVC)
     # Use secure functions by defaualt and suppress warnings about
