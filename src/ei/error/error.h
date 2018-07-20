@@ -39,11 +39,11 @@
  * Error structure that describe an error context.
  */
 typedef struct {
-	char *description;
-	char *func_name;
-	char *file_name;
-	int line_number;
-	bool is_main_error;
+    char *description;
+    char *func_name;
+    char *file_name;
+    int line_number;
+    bool is_main_error;
 } ei_error;
 
 #if defined(_WIN32) || defined(_WIN64)

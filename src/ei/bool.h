@@ -42,8 +42,8 @@
 #else /* Not C99 */
 
 typedef enum {
-	false,
-	true
+    false,
+    true
 } bool;
 
 #endif

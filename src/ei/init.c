@@ -25,19 +25,19 @@
 static bool ei_thread_storage_initialized = false;
 
 int ei_init() {
-	if (!ei_thread_storage_initialized) {
-		ei_thread_storage_initialized = ei_thread_storage_init();
-	}
+    if (!ei_thread_storage_initialized) {
+        ei_thread_storage_initialized = ei_thread_storage_init();
+    }
 
-	ei_logger_manager_init();
+    ei_logger_manager_init();
 
-	return ei_thread_storage_initialized;
+    return ei_thread_storage_initialized;
 }
 
 void ei_uninit() {
-	ei_logger_manager_uninit();
+    ei_logger_manager_uninit();
 
-	if (ei_thread_storage_initialized) {
-		ei_thread_storage_uninit();
-	}
+    if (ei_thread_storage_initialized) {
+        ei_thread_storage_uninit();
+    }
 }

@@ -24,11 +24,11 @@
 #include <stdlib.h>
 
 char *ei_string_create_from(const char *str) {
-	char *new_str;
+    char *new_str;
 
-	new_str = (char *)malloc(1 + (strlen(str) * sizeof(char)));
-	memset(new_str, 0, strlen(str) * sizeof(char));
-	strcpy(new_str, str);
+    new_str = (char *)malloc(1 + (strlen(str) * sizeof(char)));
+    memset(new_str, 0, strlen(str) * sizeof(char));
+    strcpy(new_str, str);
 
-	return new_str;
+    return new_str;
 }

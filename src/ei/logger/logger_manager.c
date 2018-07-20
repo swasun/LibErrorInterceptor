@@ -24,7 +24,7 @@
 static ei_logger *ei_global_log = NULL;
 
 bool ei_logger_manager_init() {
-	ei_global_log = ei_logger_create();
+    ei_global_log = ei_logger_create();
     ei_logger_set_details(ei_global_log, false);
     return true;
 }
