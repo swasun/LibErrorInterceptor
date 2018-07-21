@@ -1,5 +1,21 @@
-## @brief LibErrorInteceptor
-## @author Charly Lamothe
+ ##########################################################################################
+ # Copyright (C) 2018 by Charly Lamothe                                                   #
+ #                                                                                        #
+ # This file is part of LibErrorInterceptor.                                              #
+ #                                                                                        #
+ #   LibErrorInterceptor is free software: you can redistribute it and/or modify          #
+ #   it under the terms of the GNU General Public License as published by                 #
+ #   the Free Software Foundation, either version 3 of the License, or                    #
+ #   (at your option) any later version.                                                  #
+ #                                                                                        #
+ #   LibErrorInterceptor is distributed in the hope that it will be useful,               #
+ #   but WITHOUT ANY WARRANTY; without even the implied warranty of                       #
+ #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                        #
+ #   GNU General Public License for more details.                                         #
+ #                                                                                        #
+ #   You should have received a copy of the GNU General Public License                    #
+ #   along with LibErrorInterceptor.  If not, see <http://www.gnu.org/licenses/>.         #
+ ##########################################################################################/
 
 
 # --- PROJECT ---
@@ -41,25 +57,25 @@ if (MSVC)
 endif ()
 
 if (LINUX)
-	if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")     ## (not debug)
-		if(CMAKE_COMPILER_IS_GNUCXX)              ## (GNU COMMAND)
-			add_compile_options("-O3")            ### No Optimization
-			set(CMAKE_EXE_LINKER_FLAGS "-s")      ### Strip binary (only in release mode)
-		endif ()
-	else ()
-		add_compile_options("-g")
-	endif ()
+    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")     ## (not debug)
+        if(CMAKE_COMPILER_IS_GNUCXX)              ## (GNU COMMAND)
+            add_compile_options("-O3")            ### No Optimization
+            set(CMAKE_EXE_LINKER_FLAGS "-s")      ### Strip binary (only in release mode)
+        endif ()
+    else ()
+        add_compile_options("-g")
+    endif ()
 endif ()
 
 if (UNIX)
     add_compile_options("-std=gnu99" "-pthread" "-ldl")
-	add_compile_options("-Wall" "-pedantic" "-fno-builtin")
+    add_compile_options("-Wall" "-pedantic" "-fno-builtin")
 elseif (WIN32)
     #add_compile_options("std=c99" "lkernel32" "lntdll")
     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         add_compile_options("static-libgcc" "ggdb")
     endif ()
-	set(CMAKE_C_FLAGS "${CMAKE_ENABLE_C99}")
+    set(CMAKE_C_FLAGS "${CMAKE_ENABLE_C99}")
 endif ()
 
 if (WIN32)
@@ -74,7 +90,7 @@ if (WIN32)
     get_WIN32_WINNT(ver)
     add_definitions(-D_WIN32_WINNT=${ver})
 
-	set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif ()
 
 # CCache
@@ -90,7 +106,7 @@ endif()
 # Search pthread
 
 if (UNIX)
-	find_package (Threads)
+    find_package (Threads)
 endif ()
 
 
@@ -122,31 +138,31 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/ DESTINATION ${CMAKE_INSTALL_PREFIX}/i
 
 # Copy static library
 install (
-	TARGETS ${PROJECT_NAME_STATIC}
-	ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-	LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    TARGETS ${PROJECT_NAME_STATIC}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
 )
 
 if (UNIX)
-	install (
-		TARGETS ${PROJECT_NAME_SHARED}
-		LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-		RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-	)
+    install (
+        TARGETS ${PROJECT_NAME_SHARED}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    )
 elseif (WIN32)
-	install (
-		TARGETS ${PROJECT_NAME_SHARED}
-		RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-	)
+    install (
+        TARGETS ${PROJECT_NAME_SHARED}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    )
 endif ()
 
 if (BUILD_EXAMPLE)
-	# Build examples
-	file(GLOB files "${EXAMPLES_PATH}/*.c")
-	foreach (filePath ${files} )
-		get_filename_component(executableName ${filePath} NAME_WE)
-		add_executable(${executableName} ${filePath})
-		target_link_libraries(${executableName} ${PROJECT_NAME_STATIC})
-		set_target_properties(${executableName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_OUTPUT_PATH})
-	endforeach ()
+    # Build examples
+    file(GLOB files "${EXAMPLES_PATH}/*.c")
+    foreach (filePath ${files} )
+        get_filename_component(executableName ${filePath} NAME_WE)
+        add_executable(${executableName} ${filePath})
+        target_link_libraries(${executableName} ${PROJECT_NAME_STATIC})
+        set_target_properties(${executableName} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_OUTPUT_PATH})
+    endforeach ()
 endif ()
