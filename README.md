@@ -100,24 +100,48 @@ Output:
 
 ## Build
 
-### Debug mode
+### Linux
+
+#### Debug mode
 ```bash
 ./build_debug.sh
 ```
 
-### Release mode
+#### Release mode
 ```bash
 ./build_release.sh
 ```
 
-### Clean
+#### Clean
 ```bash
 ./clean.sh
 ```
 
-### Install
+#### Install
 ```bash
 ./build_release.sh && sudo ./install.sh
+```
+
+### Windows
+
+#### Debug mode
+```bash
+build_debug.bat
+```
+
+#### Release mode
+```bash
+build_release.bat
+```
+
+#### Clean
+```bash
+clean.bat
+```
+
+#### Install
+```bash
+build_release.bat && install.bat
 ```
 
 ## Cross-plateform
