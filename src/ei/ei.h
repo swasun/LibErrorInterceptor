@@ -19,10 +19,6 @@
 #ifndef ERRORINTERCEPTOR_EI_H
 #define ERRORINTERCEPTOR_EI_H
 
-/* @todo remove it from here ? */
-#include <ei/alloc.h>
-#include <ei/bool.h>
-
 #include <ei/check_parameter.h>
 #include <ei/init.h>
 
