@@ -21,6 +21,10 @@
 #include <string.h>
 
 #if defined(_WIN32) || defined(_WIN64)
+    #undef UNICODE
+    #define UNICODE
+    #undef _WINSOCKAPI_
+    #define _WINSOCKAPI_
     #include <Windows.h>
 #else
     #include <pthread.h>
